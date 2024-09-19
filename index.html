@@ -14,30 +14,37 @@
     <script>
         // Scene setup
         const scene = new THREE.Scene();
+
+        // Camera setup
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        
+
+        // Renderer setup
         const renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
         
         // Create a cube
         const geometry = new THREE.BoxGeometry();
-        const material = new THREE.MeshBasicMaterial({ color: 0x0077ff });
+        const material = new THREE.MeshBasicMaterial({ color: 0x0077ff, wireframe: true });
         const cube = new THREE.Mesh(geometry, material);
         scene.add(cube);
 
         // Position the camera
         camera.position.z = 5;
         
-        // Add rotation animation
+        // Animation loop
         function animate() {
             requestAnimationFrame(animate);
+
+            // Add cube rotation
             cube.rotation.x += 0.01;
             cube.rotation.y += 0.01;
+
+            // Render the scene with the camera
             renderer.render(scene, camera);
         }
-        
-        // Add basic interaction
+
+        // Add basic interaction to zoom the camera in and out
         document.addEventListener('keydown', function(event) {
             if (event.key === 'ArrowUp') {
                 camera.position.z -= 0.5;
@@ -46,7 +53,7 @@
             }
         });
 
-        // Responsive canvas
+        // Responsive canvas resizing
         window.addEventListener('resize', () => {
             renderer.setSize(window.innerWidth, window.innerHeight);
             camera.aspect = window.innerWidth / window.innerHeight;
